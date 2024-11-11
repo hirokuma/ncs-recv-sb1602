@@ -1,0 +1,11 @@
+menu "LCD SB1602"
+
+config USER_DEV_SB1602_CONTRAST
+    int "LCD contrast"
+    default 32
+
+module = USER_DRV_SB1602
+module-str = DRV_SB1602
+source "subsys/logging/Kconfig.template.log_config"
+
+endmenu

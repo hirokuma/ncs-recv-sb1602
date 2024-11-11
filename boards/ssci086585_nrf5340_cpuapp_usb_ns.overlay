@@ -1,0 +1,2 @@
+#include "ssci086585_nrf5340-common.dtsi"
+#include "ssci086585_nrf5340-common_usb.dtsi"

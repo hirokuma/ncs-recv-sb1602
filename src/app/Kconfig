@@ -1,0 +1,7 @@
+menu "APP"
+
+module = USER_APP
+module-str = APP
+source "subsys/logging/Kconfig.template.log_config"
+
+endmenu

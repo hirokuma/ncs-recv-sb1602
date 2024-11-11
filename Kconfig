@@ -1,0 +1,9 @@
+source "Kconfig.zephyr"
+
+menu "User Kconfig"
+
+rsource "src/Kconfig"
+rsource "src/app/Kconfig"
+rsource "src/drivers/Kconfig"
+
+endmenu

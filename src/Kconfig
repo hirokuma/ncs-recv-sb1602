@@ -1,0 +1,7 @@
+menu "SRC"
+
+module = USER_MAIN
+module-str = MAIN
+source "subsys/logging/Kconfig.template.log_config"
+
+endmenu

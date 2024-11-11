@@ -1,0 +1,6 @@
+menu "Drivers"
+
+rsource "led/Kconfig"
+rsource "sb1602/Kconfig"
+
+endmenu
