@@ -3,6 +3,7 @@ find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
 
 project(src)
 
+add_subdirectory(ble)
 add_subdirectory(drivers)
 add_subdirectory(app)
 target_sources(app PRIVATE

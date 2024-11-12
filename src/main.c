@@ -4,6 +4,8 @@
 #include <zephyr/types.h>
 #include <zephyr/logging/log.h>
 
+#include <zephyr/bluetooth/bluetooth.h>
+
 #include "drivers/led/led.h"
 #include "drivers/sb1602/sb1602b.h"
 
@@ -17,17 +19,23 @@ int main(void)
 
     ret = led_init();
     if (ret != 0) {
-        LOG_ERR("fail init: LED");
+        LOG_ERR("main: led_init(ret=%d)", ret);
         __ASSERT(0, "fail init: LED");
     }
     ret = sb1602b_init();
     if (ret != 0) {
-        LOG_ERR("fail init: SB1602");
+        LOG_ERR("main: sb1602b_init(ret=%d)", ret);
         __ASSERT(0, "fail init: SB1602");
     }
+    ret = bt_enable(NULL);
+    if (ret != 0) {
+        LOG_ERR("main: bt_enable(ret=%d)", ret);
+        __ASSERT(0, "fail init: ble enable");
+    }
+
     ret = app_init();
     if (ret != 0) {
-        LOG_ERR("fail init: app_init(ret=%d)", ret);
+        LOG_ERR("main: app_init(ret=%d)", ret);
         __ASSERT(0, "fail init: ble ctrl");
     }
     // no return

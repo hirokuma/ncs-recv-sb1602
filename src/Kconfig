@@ -1,5 +1,9 @@
 menu "SRC"
 
+rsource "app/Kconfig"
+rsource "ble/Kconfig"
+rsource "drivers/Kconfig"
+
 module = USER_MAIN
 module-str = MAIN
 source "subsys/logging/Kconfig.template.log_config"

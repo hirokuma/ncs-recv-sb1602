@@ -1,0 +1,7 @@
+menu "BLE"
+
+module = USER_BLE
+module-str = BLE
+source "subsys/logging/Kconfig.template.log_config"
+
+endmenu

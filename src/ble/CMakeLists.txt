@@ -3,10 +3,7 @@ find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
 
 project(src)
 
+add_subdirectory(lps)
 target_sources(app PRIVATE
-    ble_lps.c
-    app.c
-)
-target_include_directories(app PRIVATE
-    ..
+    ble_adv.c
 )

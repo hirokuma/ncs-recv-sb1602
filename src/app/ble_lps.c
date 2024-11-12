@@ -15,7 +15,7 @@
 #include "drivers/sb1602/sb1602b.h"
 
 #include "app_internal.h"
-#include "lps/lps.h"
+#include "ble/lps/lps.h"
 
 LOG_MODULE_DECLARE(app, CONFIG_USER_APP_LOG_LEVEL);
 
@@ -50,7 +50,7 @@ static int clear_cb(const void *data, uint16_t len, uint16_t offset)
     LOG_DBG(__FILE__ "ble_lsp: clear_cb: data=%02x", *p);
     sb1602b_clear();
     line_y = 0;
-    return ;
+    return 0;
 }
 
 int ble_lps_init(void)
