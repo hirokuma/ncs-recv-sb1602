@@ -5,6 +5,7 @@ project(src)
 
 target_sources(app PRIVATE
     ble_lps.c
+    ble_lbs.c
     app.c
 )
 target_include_directories(app PRIVATE

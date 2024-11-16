@@ -24,6 +24,11 @@ int app_init(void)
         LOG_ERR("app_init: ble_lps_init(ret=%d)", ret);
         return -1;
     }
+    ret = ble_lbs_init();
+    if (ret != 0) {
+        LOG_ERR("app_init: ble_lbs_init(ret=%d)", ret);
+        return -1;
+    }
 
     LOG_INF("app_init done.");
     return 0;

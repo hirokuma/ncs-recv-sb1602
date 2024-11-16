@@ -16,6 +16,13 @@ extern "C" {
 
 /*
  * UUID
+ *
+ *  LPS Service:
+ *      a00c1710-74ff-4bd5-9e86-cf601d80c054
+ *  PRINT Characteristic UUID:
+ *      a00c1711-74ff-4bd5-9e86-cf601d80c054
+ *  CLEAR Characteristic UUID:
+ *      a00c1712-74ff-4bd5-9e86-cf601d80c054
  */
 
 /// @brief LPS Service UUID

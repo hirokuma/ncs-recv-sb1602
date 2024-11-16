@@ -6,6 +6,7 @@
 
 #include <zephyr/bluetooth/bluetooth.h>
 
+#include "drivers/button/button.h"
 #include "drivers/led/led.h"
 #include "drivers/sb1602/sb1602b.h"
 
@@ -21,6 +22,11 @@ int main(void)
     if (ret != 0) {
         LOG_ERR("main: led_init(ret=%d)", ret);
         __ASSERT(0, "fail init: LED");
+    }
+    ret = button_init();
+    if (ret != 0) {
+        LOG_ERR("main: button_init(ret=%d)", ret);
+        __ASSERT(0, "fail init: Button");
     }
     ret = sb1602b_init();
     if (ret != 0) {

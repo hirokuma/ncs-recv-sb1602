@@ -1,0 +1,7 @@
+menu "LED"
+
+module = USER_DRV_BUTTON
+module-str = DRV_BUTTON
+source "subsys/logging/Kconfig.template.log_config"
+
+endmenu
