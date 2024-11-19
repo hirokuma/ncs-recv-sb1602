@@ -1,7 +1,7 @@
 package work.hirokuma.lpsapp.ui.screens
 
-import work.hirokuma.lpsapp.ble.BleServiceBase
-import work.hirokuma.lpsapp.ble.LpsService
+import work.hirokuma.lpsapp.data.ble.BleServiceBase
+import work.hirokuma.lpsapp.data.ble.LpsService
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

@@ -1,4 +1,4 @@
-package work.hirokuma.lpsapp.ble
+package work.hirokuma.lpsapp.data.ble
 
 import java.util.UUID
 

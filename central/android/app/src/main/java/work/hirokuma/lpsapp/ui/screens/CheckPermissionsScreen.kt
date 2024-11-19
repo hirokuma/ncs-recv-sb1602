@@ -7,7 +7,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import work.hirokuma.lpsapp.R
-import work.hirokuma.lpsapp.ble.BleUtils.isBluetoothEnabled
+import work.hirokuma.lpsapp.data.ble.Utils.isBluetoothEnabled
 import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize

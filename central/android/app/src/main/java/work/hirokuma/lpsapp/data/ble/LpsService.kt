@@ -1,4 +1,4 @@
-package work.hirokuma.lpsapp.ble
+package work.hirokuma.lpsapp.data.ble
 
 import android.bluetooth.BluetoothGatt
 import android.bluetooth.BluetoothGattService
@@ -27,18 +27,18 @@ class LpsService: BleServiceBase {
 
     fun sendText(text: String) {
         Log.d(TAG, "setText: $text")
-        val service = BleUtils.getService(bleGatt, SERVICE_UUID)
-        val chars = BleUtils.getCharacteristic(service, PRINT_CHARACTERISTIC_UUID)
+        val service = Utils.getService(bleGatt, SERVICE_UUID)
+        val chars = Utils.getCharacteristic(service, PRINT_CHARACTERISTIC_UUID)
         val data = text.toByteArray()
-        BleUtils.writeCharacteristic(bleGatt, chars, data)
+        Utils.writeCharacteristic(bleGatt, chars, data)
     }
 
     fun clearText() {
         Log.d(TAG, "clearText")
-        val service = BleUtils.getService(bleGatt, SERVICE_UUID)
-        val chars = BleUtils.getCharacteristic(service, CLEAR_CHARACTERISTIC_UUID)
+        val service = Utils.getService(bleGatt, SERVICE_UUID)
+        val chars = Utils.getCharacteristic(service, CLEAR_CHARACTERISTIC_UUID)
         val data = byteArrayOf(1)
-        BleUtils.writeCharacteristic(bleGatt, chars, data)
+        Utils.writeCharacteristic(bleGatt, chars, data)
     }
 
     companion object {

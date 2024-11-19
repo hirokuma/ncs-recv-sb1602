@@ -1,6 +1,5 @@
-package work.hirokuma.lpsapp.ble
+package work.hirokuma.lpsapp.data.ble
 
-import android.annotation.SuppressLint
 import android.bluetooth.BluetoothGatt
 import android.bluetooth.BluetoothGattCharacteristic
 import android.bluetooth.BluetoothGattService
@@ -32,8 +31,13 @@ class LbsService: BleServiceBase {
             bleGatt = gatt
 
             // Notify有効
-            val buttonChas = BleUtils.getCharacteristic(service, BUTTON_CHARACTERISTIC_UUID)
-            BleUtils.writeDescriptor(gatt, buttonChas, CCCD_UUID, BleUtils.SubscribeType.Notification)
+            val buttonChas = Utils.getCharacteristic(service, BUTTON_CHARACTERISTIC_UUID)
+            Utils.writeDescriptor(
+                gatt,
+                buttonChas,
+                CCCD_UUID,
+                Utils.SubscribeType.Notification
+            )
 
             Log.d(TAG, "onServicesDiscovered: done")
 
@@ -67,10 +71,10 @@ class LbsService: BleServiceBase {
 
     fun setLed(onoff: Boolean) {
         Log.d(TAG, "setLed: $onoff")
-        val service = BleUtils.getService(bleGatt, SERVICE_UUID)
-        val chars = BleUtils.getCharacteristic(service, LED_CHARACTERISTIC_UUID)
+        val service = Utils.getService(bleGatt, SERVICE_UUID)
+        val chars = Utils.getCharacteristic(service, LED_CHARACTERISTIC_UUID)
         val data = byteArrayOf(if (onoff) 1 else 0)
-        BleUtils.writeCharacteristic(bleGatt, chars, data)
+        Utils.writeCharacteristic(bleGatt, chars, data)
     }
 
     // https://docs.nordicsemi.com/bundle/ncs-latest/page/nrf/libraries/bluetooth_services/services/lbs.html

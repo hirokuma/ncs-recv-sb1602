@@ -18,6 +18,7 @@ package work.hirokuma.lpsapp.ui.screens
 
 import android.content.res.Configuration
 import work.hirokuma.lpsapp.R
+import work.hirokuma.lpsapp.data.ble.BleDevice
 import work.hirokuma.lpsapp.ui.theme.AppTheme
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
@@ -50,12 +51,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScanScreen(
     viewModel: BleViewModel,
-    onItemClicked: (device: Device) -> Unit,
+    onDeviceConnected: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -115,22 +119,25 @@ fun ScanScreen(
                 deviceList = uiState.deviceList,
                 modifier = Modifier.padding(innerPadding),
                 scanning = uiState.scanning,
-                onItemClicked = {device ->
-                    viewModel.connectDevice(device)
-                    onItemClicked(device)
+                onItemClicked = {dev ->
+                    viewModel.connectDevice(dev)
                 },
             )
         }
+    }
+    // Transfer to ConnectedScreen for BLE connection
+    if (uiState.selectedDevice != null) {
+        onDeviceConnected()
     }
 }
 
 
 @Composable
 fun DeviceList(
-    deviceList: List<Device>,
+    deviceList: List<BleDevice>,
     modifier: Modifier = Modifier,
     scanning: Boolean,
-    onItemClicked: (Device) -> Unit,
+    onItemClicked: (BleDevice) -> Unit,
 ) {
     LazyColumn(
         modifier = modifier
@@ -171,8 +178,8 @@ fun DeviceList(
 @Composable
 fun DeviceListPreview() {
     val list = listOf(
-        Device("dummy1", "00:11:22:33:44:55", -10),
-        Device("dummy2", "66:77:88:99:aa:bb", -20)
+        BleDevice("dummy1", "00:11:22:33:44:55", -10),
+        BleDevice("dummy2", "66:77:88:99:aa:bb", -20)
     )
     AppTheme(dynamicColor = false) {
         Surface(

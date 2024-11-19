@@ -16,8 +16,6 @@
 
 package work.hirokuma.lpsapp.ui
 
-import work.hirokuma.lpsapp.ble.LbsService
-import work.hirokuma.lpsapp.ble.LpsService
 import work.hirokuma.lpsapp.ui.screens.BleViewModel
 import work.hirokuma.lpsapp.ui.screens.CheckPermissionsScreen
 import work.hirokuma.lpsapp.ui.screens.ConnectedScreen
@@ -40,16 +38,7 @@ enum class NavRoute {
 @Composable
 fun MainNavigation() {
     val navController = rememberNavController()
-
-    // TODO Add BLE service classes
-    val lbsService = LbsService()
-    val lpsService = LpsService()
-    val services = mapOf(
-        lbsService.serviceUuid to lbsService,
-        lpsService.serviceUuid to lpsService,
-    )
-
-    val viewModel = BleViewModel(LocalContext.current.applicationContext, services)
+    val viewModel = BleViewModel(LocalContext.current.applicationContext)
 
     NavHost(navController = navController, startDestination = NavRoute.CheckPermissions.name) {
         composable(NavRoute.CheckPermissions.name) {
@@ -64,7 +53,7 @@ fun MainNavigation() {
         composable(NavRoute.Scan.name) {
             ScanScreen(
                 viewModel,
-                onItemClicked = {
+                onDeviceConnected = {
                     navController.navigate(NavRoute.Connected.name)
                 },
                 modifier = Modifier.padding(16.dp))
@@ -72,7 +61,6 @@ fun MainNavigation() {
         composable(NavRoute.Connected.name) {
             ConnectedScreen(
                 viewModel,
-                services,
                 goToBack = {
                     navController.popBackStack()
                 },
