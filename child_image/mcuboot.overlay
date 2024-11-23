@@ -1,0 +1,16 @@
+
+/* Configure button and LED for Serial Recovery */
+/ {
+  aliases {
+		mcuboot-button0 = &button0;
+		mcuboot-led0 = &led0;
+  };
+};
+
+&button0 {
+	gpios = <&gpio1 10 GPIO_ACTIVE_LOW>;
+};
+
+&led0 {
+	gpios = <&gpio1 11 GPIO_ACTIVE_LOW>;
+};
