@@ -1,4 +1,3 @@
-
 /* Configure button and LED for Serial Recovery */
 / {
   aliases {
