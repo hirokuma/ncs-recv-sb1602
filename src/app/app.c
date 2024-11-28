@@ -5,6 +5,7 @@
 #include <zephyr/kernel.h>
 #include <zephyr/types.h>
 #include <zephyr/logging/log.h>
+#include <zephyr/fatal.h>
 
 #include "ble/ble.h"
 #include "drivers/led/led.h"
@@ -57,5 +58,8 @@ FUNC_NORETURN void app_start(void)
         __ASSERT(0, "app_start: ble_adv_start");
     }
 
-    k_sleep(K_FOREVER);
+    while (true) {
+        k_sleep(K_FOREVER);
+        LOG_ERR("wakeup");
+    }
 }
