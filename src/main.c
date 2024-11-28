@@ -5,6 +5,7 @@
 #include <zephyr/logging/log.h>
 
 #include <zephyr/bluetooth/bluetooth.h>
+#include <zephyr/usb/usb_device.h>
 
 #include "drivers/button/button.h"
 #include "drivers/led/led.h"
@@ -23,6 +24,14 @@ int main(void)
         LOG_ERR("main: led_init(ret=%d)", ret);
         __ASSERT(0, "fail init: LED");
     }
+    if (IS_ENABLED(CONFIG_USB_DEVICE_STACK)) {
+        ret = usb_enable(NULL);
+        if (ret != 0) {
+            LOG_ERR("main: usb_enable(ret=%d)", ret);
+            __ASSERT(0, "fail init: USB");
+        }
+    }
+
     ret = button_init();
     if (ret != 0) {
         LOG_ERR("main: button_init(ret=%d)", ret);
