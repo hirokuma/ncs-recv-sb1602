@@ -13,7 +13,7 @@ LOG_MODULE_REGISTER(driver_button, CONFIG_USER_DRV_BUTTON_LOG_LEVEL);
 #define CHATTER_SAFETY_COUNT    (100)
 
 static const struct gpio_dt_spec dev_buttons[] = {
-    GPIO_DT_SPEC_GET(DT_ALIAS(button0), gpios),
+    GPIO_DT_SPEC_GET(DT_ALIAS(sw0), gpios),
 };
 
 static button_pressed_cb_t button_cb;
