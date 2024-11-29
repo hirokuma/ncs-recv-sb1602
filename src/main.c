@@ -3,6 +3,9 @@
 #include <zephyr/kernel.h>
 #include <zephyr/types.h>
 #include <zephyr/logging/log.h>
+#include <zephyr/logging/log_ctrl.h>
+#include <zephyr/fatal.h>
+#include <zephyr/sys/reboot.h>
 
 #include <zephyr/bluetooth/bluetooth.h>
 #include <zephyr/usb/usb_device.h>
@@ -55,4 +58,21 @@ int main(void)
     }
     // no return
     app_start();
+}
+
+// Overwrite system fatal error handler.
+// https://docs.nordicsemi.com/bundle/ncs-2.8.0/page/zephyr/kernel/services/other/fatal.html#kernel_panic
+void k_sys_fatal_error_handler(unsigned int reason, const struct arch_esf *esf)
+{
+    (void)reason;
+    (void)esf;
+
+    LOG_PANIC();
+    LOG_ERR("mou dameda-!");
+
+    led_set(0, 1);
+    led_set(1, 1);
+    led_set(2, 1);
+    // sys_reboot(SYS_REBOOT_COLD);
+    CODE_UNREACHABLE;
 }
