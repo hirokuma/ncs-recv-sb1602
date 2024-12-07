@@ -12,9 +12,11 @@
 // You can also visit the nRF DeviceTree extension documentation at https://docs.nordicsemi.com/bundle/nrf-connect-vscode/page/guides/ncs_configure_app.html#devicetree-support-in-the-extension
 
 / {
-	// for USB CDC ACM
 	chosen {
+		// USB CDC-ACM
 		zephyr,console = &cdc_acm_uart0;
+		// DFU over USB from app
+		zephyr,uart-mcumgr = &cdc_acm_uart0;
 	};
 
 	leds {
