@@ -1,10 +1,9 @@
-# ncs-recv-sb1602
+# NCS Receiver for SB1602
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
 ## Overview
-
-A Nordic nRF Connect SDK project for receiving BLE data and displaying it on an SB1602 LCD display.
+Nordic Semiconductor nRF53シリーズを使用したBLEレシーバープロジェクト。SB1602 LCD displayとの通信を実装。
 
 ## Architecture
 
@@ -15,38 +14,40 @@ graph LR
     B -->|GPIO| D[LEDs & Buttons]
 ```
 
-- Built on Nordic Connect SDK (NCS)
-- Utilizes Bluetooth Low Energy (BLE) for data reception
-- Implements I2C communication for LCD control
-- Zephyr RTOS based application
+- nRF5340 DK (nRF5340)をメインボードとして使用
+- BLE通信による外部デバイスからのデータ受信
+- SB1602 LCDディスプレイへのデータ表示
 
 ## Core Features
 
-- BLE peripheral role implementation
-- SB1602 LCD display driver
-- Real-time data reception and display
-- Power-efficient operation
+- BLE Central mode operation
+- GATT Client implementation
+- SB1602 LCD制御
+- System state management
+- Power optimization
 
 ## Project Structure
 
 ```
 ncs-recv-sb1602/
+├── CMakeLists.txt
+├── prj.conf
 ├── src/
 │   ├── main.c
-│   ├── lcd/
-│   └── ble/
-├── prj.conf
-├── CMakeLists.txt
+│   ├── ble_central.c
+│   ├── ble_central.h
+│   ├── lcd_control.c
+│   └── lcd_control.h
+├── boards/
 └── README.md
 ```
 
 ## Requirements
 
-- Nordic Connect SDK v2.x or later
-- nRF52 Series development kit
-- SB1602 LCD display
-- CMake 3.20.0 or later
-- Python 3.6 or later
+- Nordic Connect SDK (NCS) v2.8
+- nRF5340 DK
+- Development environment setup for nRF Connect SDK
+- SB1602 LCD Display
 
 ## Building
 
@@ -69,13 +70,21 @@ west flash
 
 ## BLE Services
 
-### Display Service (Custom)
-- UUID: `0000XXXX-0000-1000-8000-00805F9B34FB`
-- Characteristics:
-  - Display Text (Write)
-    - UUID: `0000YYYY-0000-1000-8000-00805F9B34FB`
-    - Properties: Write
-    - Length: Up to 32 bytes
+### Device Information Service (0x180A)
+- Manufacturer Name (0x2A29): 製造者名
+- Model Number (0x2A24): モデル番号
+- Serial Number (0x2A25): シリアル番号
+
+### Custom Service (0xXXXX)
+- Data Characteristic (0xYYYY): 表示データ
+  - Properties: Read, Notify
+  - Length: 20 bytes
+- Control Characteristic (0xZZZZ): 制御コマンド
+  - Properties: Write
+  - Length: 1 byte
+- Status Characteristic (0xWWWW): 状態通知
+  - Properties: Read, Notify
+  - Length: 1 byte
 
 ## License
 
