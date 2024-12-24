@@ -1,56 +1,74 @@
-# NRF5340 LCD Display Project
+# LCD Print Service Project
 
-NRF5340開発キットを使用したBLE制御対応LCD表示システムです。
+A BLE-enabled LCD display control system built with nRF Connect SDK, featuring an Android companion app.
 
-## 機能
+## Overview
 
-- SB1602 16x2 LCD I2C制御
-- BLEによるリモートLCD制御機能
-- Androidコンパニオンアプリ対応
-- Zephyr RTOSベースのファームウェア
+This project implements a custom BLE service that allows remote control of a 16x2 LCD display (SB1602). It consists of two main parts:
 
-## プロジェクト構成
+- **Embedded Application**: Built with nRF Connect SDK for nRF5340
+- **Android Application**: Modern Android app using Jetpack Compose
+
+## Features
+
+- BLE LCD Print Service (LPS) for remote display control
+- 16x2 character LCD support via I2C
+- Custom BLE characteristics for printing and clearing display
+- Android companion app with Material3 design
+
+## BLE Services
+
+### LCD Print Service (LPS)
+
+- Service UUID: `a00c1710-74ff-4bd5-9e86-cf601d80c054`
+
+#### Characteristics
+
+- Print Characteristic
+  - UUID: `a00c1711-74ff-4bd5-9e86-cf601d80c054`
+  - Properties: Write
+  - Description: Write text to display on LCD
+
+- Clear Characteristic
+  - UUID: `a00c1712-74ff-4bd5-9e86-cf601d80c054`
+  - Properties: Write
+  - Description: Clear LCD screen
+
+## Project Structure
 
 ```
-.
-├── boards/              # ボード設定ファイル
-├── central/             
-│   └── android/        # Androidアプリ
-├── src/
-│   ├── app/           # アプリケーションロジック
-│   ├── ble/          # BLEサービス実装 
-│   └── drivers/      # ハードウェアドライバ
-└── sysbuild/          # MCUboot設定
+├── src/                    # Embedded application source code
+│   ├── app/               # Main application logic
+│   ├── ble/              # BLE service implementations
+│   └── drivers/          # Hardware drivers (LCD, LED, Button)
+├── central/              
+│   └── android/          # Android companion app
+└── boards/               # Board configuration files
 ```
 
-## 必要環境
+## Building
 
-- nRF Connect SDK (NCS)
-- nRF5340 DK
-- Android Studio (コンパニオンアプリ用)
-- CMake 3.20.0以上
+### Embedded Application
 
-## ビルド方法
-
-1. ファームウェアのビルド:
+1. Install nRF Connect SDK
+2. Build the project:
 ```sh
 west build
 ```
 
-2. Androidアプリのビルド:
+### Android Application
+
+1. Open the `central/android` directory in Android Studio
+2. Build using Gradle:
 ```sh
-cd central/android
-./gradlew assembleDebug
+./gradlew build
 ```
 
-## BLEサービス
+## License
 
-ファームウェアは以下のカスタムLCDプリントサービス(LPS)を実装しています:
+Licensed under the Apache License, Version 2.0
 
-- サービスUUID: `a00c1710-74ff-4bd5-9e86-cf601d80c054`
-- 表示特性: `a00c1711-74ff-4bd5-9e86-cf601d80c054`
-- クリア特性: `a00c1712-74ff-4bd5-9e86-cf601d80c054`
+## Documentation
 
-## ライセンス
-
-Apache License 2.0で提供しています。詳細は各ソースファイルを参照してください。
+- [BLE Services](src/ble/README.md)
+- [Device Drivers](src/drivers/README.md)
