@@ -1,10 +1,10 @@
-# BLE Display Controller
+# ncs-recv-sb1602
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
 ## Overview
 
-Bluetooth Low Energy (BLE) based display controller for SB1602B LCD, built with nRF Connect SDK. This project enables wireless text display control and LED control through BLE communication.
+A Nordic nRF Connect SDK project for receiving BLE data and displaying it on an SB1602 LCD display.
 
 ## Architecture
 
@@ -15,76 +15,68 @@ graph LR
     B -->|GPIO| D[LEDs & Buttons]
 ```
 
+- Built on Nordic Connect SDK (NCS)
+- Utilizes Bluetooth Low Energy (BLE) for data reception
+- Implements I2C communication for LCD control
+- Zephyr RTOS based application
+
 ## Core Features
 
-- Two BLE GATT Services:
-  - LCD Print Service (LPS) for text display control
-  - LED Button Service (LBS) for LED control and button state
-- SB1602B LCD driver with I2C communication
-- Android companion app for BLE control
-- Button input with debouncing
-- LED status indicators
-- MCUboot support for DFU updates
+- BLE peripheral role implementation
+- SB1602 LCD display driver
+- Real-time data reception and display
+- Power-efficient operation
 
 ## Project Structure
 
 ```
-.
+ncs-recv-sb1602/
 ├── src/
-│   ├── app/               # Main application logic
-│   ├── ble/              # BLE services implementation
-│   │   ├── lps/          # LCD Print Service
-│   │   └── lbs/          # LED Button Service
-│   └── drivers/          # Hardware drivers
-│       ├── button/       # Button driver with debouncing
-│       ├── led/          # LED control driver
-│       └── sb1602/       # LCD driver implementation
-├── central/
-│   └── android/          # Android companion app
-├── boards/               # Board configuration
-├── sysbuild/            # MCUboot configuration
-└── CMakeLists.txt       # Build system
+│   ├── main.c
+│   ├── lcd/
+│   └── ble/
+├── prj.conf
+├── CMakeLists.txt
+└── README.md
 ```
 
 ## Requirements
 
-- nRF Connect SDK v2.8.0 or later
-- nRF5340 Development Kit
-- SB1602B LCD Display
-- Android Studio for companion app
-- Visual Studio Code with nRF Connect Extension
+- Nordic Connect SDK v2.x or later
+- nRF52 Series development kit
+- SB1602 LCD display
+- CMake 3.20.0 or later
+- Python 3.6 or later
 
 ## Building
 
-For nRF5340 firmware:
+1. Set up Nordic Connect SDK environment
 ```bash
-west build -b nrf5340dk_nrf5340_cpuapp
+source ~/ncs/toolchain/env/setup.sh
 ```
 
-For Android app:
+2. Build the project
 ```bash
-cd central/android
-./gradlew assembleDebug
+west build -b nrf52dk_nrf52832
 ```
 
 ## Flashing
 
+Flash the built firmware using:
 ```bash
 west flash
 ```
 
 ## BLE Services
 
-### LCD Print Service (LPS)
-- Service UUID: a00c1710-74ff-4bd5-9e86-cf601d80c054
-- Print characteristic: a00c1711-74ff-4bd5-9e86-cf601d80c054
-- Clear characteristic: a00c1712-74ff-4bd5-9e86-cf601d80c054
-
-### LED Button Service (LBS)
-- Service UUID: 00001523-1212-efde-1523-785feabcd123
-- Button characteristic: 00001524-1212-efde-1523-785feabcd123
-- LED characteristic: 00001525-1212-efde-1523-785feabcd123
+### Display Service (Custom)
+- UUID: `0000XXXX-0000-1000-8000-00805F9B34FB`
+- Characteristics:
+  - Display Text (Write)
+    - UUID: `0000YYYY-0000-1000-8000-00805F9B34FB`
+    - Properties: Write
+    - Length: Up to 32 bytes
 
 ## License
 
-Apache License 2.0 - See [LICENSE](LICENSE) for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
