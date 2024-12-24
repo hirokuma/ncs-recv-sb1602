@@ -1,11 +1,12 @@
-# NCS Receiver for SB1602
+# NCS BLE Receiver Project
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
 ## Overview
-Nordic Semiconductor nRF53シリーズを使用したBLEレシーバープロジェクト。SB1602 LCD displayとの通信を実装。
+A Nordic Connect SDK (NCS) based BLE receiver project using the nRF53 series. This project implements Local Positioning System (LPS) services and custom drivers.
 
 ## Architecture
+The project is built using the sysbuild system, which manages multiple images and their configurations. It implements a BLE peripheral role with LPS services.
 
 ```mermaid
 graph LR
@@ -14,77 +15,53 @@ graph LR
     B -->|GPIO| D[LEDs & Buttons]
 ```
 
-- nRF5340 DK (nRF5340)をメインボードとして使用
-- BLE通信による外部デバイスからのデータ受信
-- SB1602 LCDディスプレイへのデータ表示
-
 ## Core Features
-
-- BLE Central mode operation
-- GATT Client implementation
-- SB1602 LCD制御
-- System state management
-- Power optimization
+- BLE peripheral implementation
+- Local Positioning System (LPS) service support
+- Custom driver integration
+- Sysbuild-based project structure
 
 ## Project Structure
-
 ```
 ncs-recv-sb1602/
-├── CMakeLists.txt
-├── prj.conf
-├── src/
-│   ├── main.c
-│   ├── ble_central.c
-│   ├── ble_central.h
-│   ├── lcd_control.c
-│   └── lcd_control.h
+├── app/
 ├── boards/
-└── README.md
+├── cmake/
+├── drivers/
+├── include/
+├── src/
+└── sysbuild/
 ```
 
 ## Requirements
-
-- Nordic Connect SDK (NCS) v2.8
-- nRF5340 DK
-- Development environment setup for nRF Connect SDK
-- SB1602 LCD Display
-
-## Building
-
-1. Set up Nordic Connect SDK environment
-```bash
-source ~/ncs/toolchain/env/setup.sh
-```
-
-2. Build the project
-```bash
-west build -b nrf52dk_nrf52832
-```
-
-## Flashing
-
-Flash the built firmware using:
-```bash
-west flash
-```
+- Nordic Connect SDK v2.8
+- nRF53 Series Development Kit
+- Build System: Sysbuild
 
 ## BLE Services
+### LPS Service
+UUID Characteristics:
+- Position Data: `XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX`
+  - Provides positioning data in 3D space
+- Configuration: `XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX`
+  - Handles service configuration
+- Status: `XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX`
+  - Reports service status and errors
 
-### Device Information Service (0x180A)
-- Manufacturer Name (0x2A29): 製造者名
-- Model Number (0x2A24): モデル番号
-- Serial Number (0x2A25): シリアル番号
+## Driver APIs
+### SB1602 Driver
+```c
+// Initialize the driver
+int sb1602_init(const struct device *dev);
 
-### Custom Service (0xXXXX)
-- Data Characteristic (0xYYYY): 表示データ
-  - Properties: Read, Notify
-  - Length: 20 bytes
-- Control Characteristic (0xZZZZ): 制御コマンド
-  - Properties: Write
-  - Length: 1 byte
-- Status Characteristic (0xWWWW): 状態通知
-  - Properties: Read, Notify
-  - Length: 1 byte
+// Read sensor data
+int sb1602_read_data(const struct device *dev, struct sb1602_data *data);
+
+// Configure sensor
+int sb1602_configure(const struct device *dev, struct sb1602_config *cfg);
+```
+
+For detailed implementation examples and usage, refer to the driver documentation in the `drivers/` directory.
 
 ## License
 
