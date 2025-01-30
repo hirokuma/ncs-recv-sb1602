@@ -1,7 +1,5 @@
 {
-    "nrf-connect.toolchain.path": "${nrf-connect.toolchain:2.8.0}",
-    "nrf-connect.topdir": "${nrf-connect.sdk:2.8.0}",
     "nrf-connect.boardRoots": [
-        "${env:HOME}/ncs/custom_boards/v2.8"
+        "${env:HOME}/ncs/custom_boards/v2.8-v2.9"
     ]
 }
